@@ -3,27 +3,21 @@ Samir Townsley
 March 3, 2020
 NCAA Tournament Data Scraper
 
-Source: www.sports-reference.com
+Description: 
+    Scrape March Madness tournament matchups between desired year range (inclusive). Default year range is 1987 to 2019. Output is a .csv file with each row representing one tournament matchup. File is saved in a directory titled 'data'.
+Usage: 
+    Run with default parameters - python3 get_tourney_data.py
+    Run with manual year entry - python3 get_tourney_data.py 1
+Source:
+    www.sports-reference.com
 '''
 
-
-#### Usage ##########################
-#
-# Run with default parameters:
-#       python3 get_tourney_data.py
-#
-# Run with manual parameter entry:
-#       python3 get_tourney_data.py 1
-#
-#####################################
 
 
 from bs4 import BeautifulSoup as bs
 import pandas as pd
-import unicodedata
 import requests
 import sys, os
-import csv
 
 ### Set year parameters
 if len(sys.argv) == 1:  # Default year range
@@ -39,10 +33,10 @@ else:   # Manual year entry
         quit()
 print('Getting data from year %s to %s' % (start,end))
 
+### Create data directory and file name
 data_dir = 'data'
 if not os.path.exists(data_dir):
     os.mkdir(data_dir)
-    
 filename = data_dir+'/'+str(start)+'_to_'+str(end)+'.csv'
 
 
