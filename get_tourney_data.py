@@ -22,8 +22,8 @@ from bs4 import BeautifulSoup as bs
 import pandas as pd
 import unicodedata
 import requests
+import sys, os
 import csv
-import sys
 
 ### Set year parameters
 if len(sys.argv) == 1:  # Default year range
@@ -33,12 +33,17 @@ else:   # Manual year entry
     if sys.argv[1] == '1':
         start = input('Enter start year: ')
         end = input('Enter end year: ')
+        print()
     else:
         print('Error: Invalid argument \'%s\'' % str(sys.argv[1]))
         quit()
-print('Getting data from year %d to %d' % (start,end))
+print('Getting data from year %s to %s' % (start,end))
 
-filename = str(start)+'_to_'+str(end)+'.csv'
+data_dir = 'data'
+if not os.path.exists(data_dir):
+    os.mkdir(data_dir)
+    
+filename = data_dir+'/'+str(start)+'_to_'+str(end)+'.csv'
 
 
 offset = 0
@@ -83,12 +88,13 @@ while 1:
             print('ERROR. Too many columns:')
             print(row)
 
+        print('\tCurrent year: '+str(row[0]), end="\r", flush=True)
         table.append(row)
 
     # Increase offset to retrieve next page
     offset += 100
 
 # Save data to .csv file
-pd.DataFrame(columns=table[0],data=table[1:]).to_csv('data/'+filename)
-print('Data saved to file \'data/%s\'' % filename)
+pd.DataFrame(columns=table[0],data=table[1:]).to_csv(filename)
+print('\n\nData saved to file \'%s\'' % filename)
 
