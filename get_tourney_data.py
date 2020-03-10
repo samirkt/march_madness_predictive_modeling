@@ -7,15 +7,15 @@ Source: www.sports-reference.com
 '''
 
 
-#### Usage #######################
+#### Usage ##########################
 #
 # Run with default parameters:
-#       python3 get_data.py
+#       python3 get_tourney_data.py
 #
 # Run with manual parameter entry:
-#       python3 get_data.py 1
+#       python3 get_tourney_data.py 1
 #
-##################################
+#####################################
 
 
 from bs4 import BeautifulSoup as bs
