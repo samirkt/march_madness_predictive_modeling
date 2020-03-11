@@ -7,7 +7,7 @@ Description:
     Scrape March Madness tournament matchups between desired year range (inclusive). Default year range is 1987 through 2019. Output is a .csv file with each row representing one tournament matchup. File is saved in a directory titled 'data/tourney/'.
 Usage: 
     Run with default parameters - python3 get_tourney_data.py
-    Run with manual year entry - python3 get_tourney_data.py 1
+    Run with manual year entry - python3 get_tourney_data.py <first included year> <last included year>
 Source:
     www.sports-reference.com
 '''
@@ -23,15 +23,14 @@ import sys, os
 if len(sys.argv) == 1:  # Default year range
     start = 1987    # Introduction of 3-pt line and shot clock
     end = 2019
-else:   # Manual year entry
-    if sys.argv[1] == '1':
-        start = input('Enter start year: ')
-        end = input('Enter end year: ')
-        print()
-    else:
-        print('Error: Invalid argument \'%s\'' % str(sys.argv[1]))
-        quit()
+elif len(sys.argv) == 3: # Manual year entry
+    start = sys.argv[1]
+    end = sys.argv[2]
+else:   
+    print('Error: Invalid number of arguments (%s)' % len(sys.argv))
+    quit()
 print('Getting data from year %s through %s' % (start,end))
+
 
 ### Create data directory and file name
 data_dir = 'data'
