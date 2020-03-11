@@ -31,13 +31,17 @@ else:   # Manual year entry
     else:
         print('Error: Invalid argument \'%s\'' % str(sys.argv[1]))
         quit()
-print('Getting data from year %s to %s' % (start,end))
+print('Getting data from year %s through %s' % (start,end))
 
 ### Create data directory and file name
 data_dir = 'data'
+sub_dir = data_dir+'/tourney'
 if not os.path.exists(data_dir):
     os.mkdir(data_dir)
-filename = data_dir+'/'+str(start)+'_to_'+str(end)+'.csv'
+if not os.path.exists(sub_dir):
+    os.mkdir(sub_dir)
+
+filename = sub_dir+'/'+str(start)+'_to_'+str(end)+'.csv'
 
 
 offset = 0
@@ -79,7 +83,7 @@ while 1:
             row.extend(item)
 
         if len(row) != 13:
-            print('ERROR. Too many columns:')
+            print('ERROR. Incorrect number of columns:')
             print(row)
 
         print('\tCurrent year: '+str(row[0]), end="\r", flush=True)
