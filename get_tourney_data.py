@@ -4,7 +4,7 @@ March 3, 2020
 NCAA Tournament Data Scraper
 
 Description: 
-    Scrape March Madness tournament matchups between desired year range (inclusive). Default year range is 1987 to 2019. Output is a .csv file with each row representing one tournament matchup. File is saved in a directory titled 'data'.
+    Scrape March Madness tournament matchups between desired year range (inclusive). Default year range is 1987 through 2019. Output is a .csv file with each row representing one tournament matchup. File is saved in a directory titled 'data/tourney/'.
 Usage: 
     Run with default parameters - python3 get_tourney_data.py
     Run with manual year entry - python3 get_tourney_data.py 1

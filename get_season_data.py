@@ -4,9 +4,10 @@ March 3, 2020
 NCAA Season Data Scraper
 
 Description: 
-    Get season stats for all NCAA teams.
+    Get season stats for all NCAA tournament teams between specified year range (inclusive). Default year range is 1993 through 2019. Output is a .csv file where each row corresponds to the statistics for a team for a given season. File is saved in the 'data/season/' directory.
 Usage: 
     Run with default parameters - python3 get_season_data.py
+    Run with manual year entry - python3 get_tourney_data.py 1
 Source:
     www.sports-reference.com
 '''
@@ -97,5 +98,5 @@ for year in range(int(start),int(end)+1):
 
 ### Save data to .csv file
 pd.DataFrame(columns=table[0],data=table[1:]).to_csv(filename)
-print('\n\nData saved to file \'%s\'' % filename)
+print('\rData saved to file \'%s\'' % filename)
 
