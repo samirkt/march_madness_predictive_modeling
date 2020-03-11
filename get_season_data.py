@@ -4,7 +4,7 @@ March 3, 2020
 NCAA Season Data Scraper
 
 Description: 
-    Get season stats by team
+    Get season stats for all NCAA teams.
 Usage: 
     Run with default parameters - python3 get_season_data.py
 Source:
@@ -20,7 +20,7 @@ import sys, os
 
 ### Set year parameters
 if len(sys.argv) == 1:  # Default year range
-    start = 1987    # Introduction of 3-pt line and shot clock
+    start = 1993    # First season with data available
     end = 2019
 else:   # Manual year entry
     if sys.argv[1] == '1':
@@ -50,43 +50,49 @@ for year in range(int(start),int(end)+1):
     ### Fetch web data from "sports-reference.com"
     page = requests.get('https://www.sports-reference.com/cbb/seasons/'+str(year)+'-school-stats.html')
 
-    ### Process content, get data table headers and body
-    soup = bs(page.content,'html.parser')
-    thead = soup.find_all('thead')[0]
-    tbody = soup.find_all('tbody')[0]
+    ### Process content
+    try:
+        # Get data table headers and body
+        soup = bs(page.content,'html.parser')
+        thead = soup.find_all('thead')[0]
+        tbody = soup.find_all('tbody')[0]
+    except:
+        # No season data available for this year
+        print('\tNo data found: %s%s' % (str(year)," "*10))
+        continue
 
     ### Extract table column names
     if len(table) == 0:
         cols = []
         headers = thead.find_all('tr')
-        for over in headers[0].find_all('th'): # Get high-level columns
+
+        # Get high-level columns
+        for over in headers[0].find_all('th'): 
             val = over.get('colspan')
             cnt = 1 if val is None else int(val)
             cols.extend([over.text]*cnt)
-        for i,under in enumerate(headers[1].find_all('th')): # Combine with sub-columns
+
+        # Combine with sub-columns
+        for i,under in enumerate(headers[1].find_all('th')): 
             cols[i] = cols[i]+'_'+under.text
         table = [['year']+cols[1:]]
 
     ### Build out table
     for trow in tbody.find_all('tr'):
-        # Check if row is invalid
+        # Check if row is not relevant
         if trow.has_attr('data-row'):
             continue
 
         # Append each item in row
         row = []
         for col in trow.find_all('td'):
-            # Split school name and ncaa appearance
+            # Split school name and NCAA appearance
             item = col.text.split('\xa0')
-
             row.extend(item)
 
         # Check if team was in NCAA tourney
         if len(row) > 0 and row[1] == 'NCAA':
             table.append([year]+row[:1]+row[2:])
-
-
-
 
 
 ### Save data to .csv file

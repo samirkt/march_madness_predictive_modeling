@@ -94,5 +94,5 @@ while 1:
 
 # Save data to .csv file
 pd.DataFrame(columns=table[0],data=table[1:]).to_csv(filename)
-print('\n\nData saved to file \'%s\'' % filename)
+print('\rData saved to file \'%s\'' % filename)
 
