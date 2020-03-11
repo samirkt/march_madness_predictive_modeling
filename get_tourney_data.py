@@ -40,7 +40,7 @@ if not os.path.exists(data_dir):
 if not os.path.exists(sub_dir):
     os.mkdir(sub_dir)
 
-filename = sub_dir+'/'+str(start)+'_to_'+str(end)+'.csv'
+filename = sub_dir+'/'+str(start)+'_to_'+str(end)+'_tourney.csv'
 
 
 offset = 0
