@@ -75,7 +75,7 @@ for year in range(int(start),int(end)+1):
         # Combine with sub-columns
         for i,under in enumerate(headers[1].find_all('th')): 
             cols[i] = cols[i]+'_'+under.text
-        table = [['year']+cols[1:]]
+        table = [['Year']+cols[1:]]
 
     ### Build out table
     for trow in tbody.find_all('tr'):
