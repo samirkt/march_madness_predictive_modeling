@@ -15,13 +15,13 @@ This repo contains code to develop a predictive model for the 2020 NCAA March Ma
 ## Data Processing
 #### Data Checks
 1. Print out teams with no associated tournament data or no associated season statistics
-	* Performed separately on each year of data
-	* Some teams have season stats but are missing tournament matchup data
-	* There shouldn't be any teams with matchup data but no season statistics
+	* *Performed separately on each year of data*
+	* *Some teams have season stats but are missing tournament matchup data*
+	* *There should not be any teams with tourney matchup data but no season statistics*
 
 #### Data Cleaning
 1. Map team names in season data to abbreviated versions used in tourney data
-	* Abbreviation mappings stored and editable in "school\_abbrevs.py"
+	* *Abbreviation mappings stored and editable in "helper/school\_abbrevs.py"*
 
 ---
 
@@ -40,7 +40,9 @@ Pipeline to use this repo. All data scraped from 1993 through 2019 by default.
 
 	`python3 data_processor.py`
 
-	`When prompted: enter season data file name stored in data/season/ (i.e. 1993_to_2019_season.csv)`
+	When prompted, enter season data file name stored.
+
+	Example: `1993_to_2019_season.csv`
 
 ## Other examples
 Replace \<script\> with either `get_season_data.py` or `get_tourney_data.py`.
