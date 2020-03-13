@@ -40,9 +40,9 @@ Pipeline to use this repo. All data scraped from 1993 through 2019 by default.
 
 	`python3 data_processor.py`
 
-	When prompted, enter season data file name stored.
+	When prompted, enter season data file name or hit "enter" for default.
 
-	Example: `1993_to_2019_season.csv`
+	Example: `2000_to_2019_season.csv`
 
 ## Other examples
 Replace \<script\> with either `get_season_data.py` or `get_tourney_data.py`.

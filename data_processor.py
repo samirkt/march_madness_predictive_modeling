@@ -12,7 +12,7 @@ def abbrev_schools(table):
 
 def test_abbrev_mapping(season, tourney):
     # Group season and tourney data by year
-    sTeams = season.groupby('year')
+    sTeams = season.groupby('Year')
     tTeams = tourney.groupby('Year')
 
     # Check school name overlap between season and tourney data
@@ -42,7 +42,6 @@ def test_abbrev_mapping(season, tourney):
         print()
 
 if __name__ == "__main__":
-    quit()
     # Pick season and tourney data files (tourney file is fixed)
     usr_in = (input('Processing and cleaning season data...\nEnter season filename or hit "enter" to use default: ') or '1993_to_2019_season.csv')
     usr_in = usr_in[12:] if usr_in[:12] == 'data/season/' else usr_in
