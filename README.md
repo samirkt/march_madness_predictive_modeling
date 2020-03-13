@@ -26,7 +26,7 @@ This repo contains code to develop a predictive model for the 2020 NCAA March Ma
 ---
 
 ## Usage
-Pipeline to use this repo. All data scraped from 1993 through 2019 by default.
+Pipeline to use this repo. All data scraped from 1993 through 2019 (inclusive) by default.
 
 1. Scrape season stats
 
