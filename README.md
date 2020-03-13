@@ -21,12 +21,12 @@ This repo contains code to develop a predictive model for the 2020 NCAA March Ma
 
 #### Data Cleaning
 1. Map team names in season data to abbreviated versions used in tourney data
-	* Abbreviation mappings stored in "school\_abbrevs.py"
+	* Abbreviation mappings stored and editable in "school\_abbrevs.py"
 
 ---
 
 ## Usage
-(All data scraped from 1993 through 2019)
+Pipeline to use this repo. All data scraped from 1993 through 2019 by default.
 
 1. Scrape season stats
 
@@ -43,10 +43,11 @@ This repo contains code to develop a predictive model for the 2020 NCAA March Ma
 	`When prompted: enter season data file name stored in data/season/ (i.e. 1993_to_2019_season.csv)`
 
 ## Other examples
-1. Get season data from (2000 thru 2019)
+Replace \<script\> with either `get_season_data.py` or `get_tourney_data.py`.
+1. Get data in year range (2000 thru 2019 inclusive)
 
-	`python3 get_season_data.py 2000 2019`
+	`python3 <script> 2000 2019`
 
-2. Get default tourney data (2019 only)
+2. Get data in single year (2019)
 
-	`python3 get_tourney_data.py 2019 2019`
+	`python3 <script> 2019`

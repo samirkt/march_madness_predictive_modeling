@@ -24,6 +24,9 @@ if len(sys.argv) == 1:  # Default year range
     start = 1993    # 1993: Earliest available season data
                     # 1987: Introduction of 3-pt line and shot clock
     end = 2019
+elif len(sys.argv) == 2:    # Manual year entry (single year)
+    start = sys.argv[1]
+    end = sys.argv[1]
 elif len(sys.argv) == 3: # Manual year entry
     start = sys.argv[1]
     end = sys.argv[2]
