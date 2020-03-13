@@ -30,15 +30,15 @@ This repo contains code to develop a predictive model for the 2020 NCAA March Ma
 
 Scrape season stats
 
-	`python3 get\_season\_data.py`
+	python3 get_season_data.py
 
 Scrape tournament data
 
-	`python3 get\_tourney\_data.py`
+	python3 get_tourney_data.py
 
 Preprocess season data
 
-	`python3 data\_processor.py`
+	python3 data_processor.py
 
 ## Other examples
 1. Get season data from (2000 thru 2019)
