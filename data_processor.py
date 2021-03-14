@@ -10,6 +10,22 @@ def abbrev_schools(table):
         table.replace(pair[0],pair[1],inplace=True)
     return table
 
+def merge_adv_stats(season,season_adv):
+    basic_stats=set(season.Year.astype(str)+season._School)
+    advanced_stats=set(season_adv.Year.astype(str)+season_adv._School)
+
+    diff = list(basic_stats-advanced_stats)
+
+    print("Seasons/teams missing advanced stats:", end=" ")
+    print(diff)
+    _ = input("Hit enter to continue.")
+    print()
+
+    merged=season.merge(season_adv, on=['Year','_School'], suffixes=[None,'_adv'])
+
+    return merged
+
+
 def test_abbrev_mapping(season, tourney):
     # Group season and tourney data by year
     sTeams = season.groupby('Year')
@@ -46,15 +62,28 @@ if __name__ == "__main__":
     usr_in = (input('Processing and cleaning season data...\nEnter season filename or hit "enter" to use default: ') or '1993_to_2019_season.csv')
     usr_in = usr_in[12:] if usr_in[:12] == 'data/season/' else usr_in
     sfilename = 'data/season/' + usr_in
+    safilename = 'data/season_adv/'+usr_in[:-4]+'_adv'+usr_in[-4:]
     tfilename = 'data/tourney/1993_to_2019_tourney.csv'
     print()
 
+    check_adv_stats = 1
     try:
         season = pd.read_csv(sfilename)
     except:
         print("Searching for file %s. File does not exist." % sfilename)
         quit()
+    try:
+        season_adv = pd.read_csv(safilename)
+    except:
+        print("Searching for file %s. File does not exist." % safilename)
+        _ = input("Ignoring advanced stats. Hit enter to continue.")
+        print()
+        check_adv_stats = 0
     tourney = pd.read_csv(tfilename)
+
+    # Merge advanced stats
+    if check_adv_stats:
+        season = merge_adv_stats(season,season_adv)
 
     # Data Preprocessing
     season = abbrev_schools(season)

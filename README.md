@@ -6,10 +6,12 @@ This repo contains code to develop a predictive model for the 2020 NCAA March Ma
 ## Repo Contents
 1. Scripts
 	* *get_season_data.py* - Gets season statistics for teams that appear in NCAA tournament (i.e. Wins, Losses, etc.)
+	* *get_season_adv_data.py* - Gets advanced season statistics for teams that appear in NCAA tournament
 	* *get_tourney_data.py* - Gets data from NCAA tournament games (i.e. Seed, Round, Score, etc.)
-	* *data_processor.py* - Processes and cleans up season data. Outputs file to season folder with suffix "\_clean.csv". More details in Data Processing section
-2. Data Directories (created during script execution)
-	* *data/season/* - directory where all season data is stored
+	* *data_processor.py* - Processes and cleans up season data. Combines season data with advanced season statistics if available. Outputs file to season folder with suffix "\_clean.csv". More details in Data Processing section
+2. Data Directories (created during script executions)
+	* *data/season/* - directory where all basic and cleaned season data is stored
+	* *data/season_adv/* - directory where extra advanced season data is stored
 	* *data/tourney/* - directory where all tournament data is stored
 
 ## Data Processing
@@ -32,11 +34,15 @@ Pipeline to use this repo. All data scraped from 1993 through 2019 (inclusive) b
 
 	`python3 get_season_data.py`
 
-2. Scrape tournament data
+2. Scrape advanced season stats (optional)
+
+	`python3 get_season_adv_data.py`
+
+3. Scrape tournament data
 
 	`python3 get_tourney_data.py`
 
-3. Preprocess season data
+4. Preprocess season data
 
 	`python3 data_processor.py`
 
