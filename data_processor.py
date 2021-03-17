@@ -59,11 +59,11 @@ def test_abbrev_mapping(season, tourney):
 
 if __name__ == "__main__":
     # Pick season and tourney data files (tourney file is fixed)
-    usr_in = (input('Processing and cleaning season data...\nEnter season filename or hit "enter" to use default: ') or '1993_to_2019_season.csv')
+    usr_in = (input('Processing and cleaning season data...\nEnter season filename or hit "enter" to use default: ') or '1993_to_2021_season.csv')
     usr_in = usr_in[12:] if usr_in[:12] == 'data/season/' else usr_in
     sfilename = 'data/season/' + usr_in
     safilename = 'data/season_adv/'+usr_in[:-4]+'_adv'+usr_in[-4:]
-    tfilename = 'data/tourney/1993_to_2019_tourney.csv'
+    tfilename = 'data/tourney/1993_to_2021_tourney.csv'
     print()
 
     check_adv_stats = 1

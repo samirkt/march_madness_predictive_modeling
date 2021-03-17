@@ -4,7 +4,7 @@ March 13, 2021
 NCAA Season Data Scraper
 
 Description: 
-    Get advanced season stats for all NCAA tournament teams between specified year range (inclusive). Default year range is 1993 through 2019. Output is a .csv file where each row corresponds to the statistics for a team for a given season. File is saved in the 'data/season_adv/' directory.
+    Get advanced season stats for all NCAA tournament teams between specified year range (inclusive). Default year range is 1993 through 2021. Output is a .csv file where each row corresponds to the statistics for a team for a given season. File is saved in the 'data/season_adv/' directory.
 Usage: 
     Run with default parameters - python3 get_season_adv_data.py
     Run with manual year entry - python3 get_season_adv_data.py <first included year> <last included year>
@@ -22,7 +22,7 @@ import sys, os
 ### Set year parameters
 if len(sys.argv) == 1:  # Default year range
     start = 1993    # First season with data available
-    end = 2019
+    end = 2021
 elif len(sys.argv) == 2:    # Manual year entry (single year)
     start = sys.argv[1]
     end = sys.argv[1]
