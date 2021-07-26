@@ -1,7 +1,7 @@
-# March Madness Predictive Modeling 2020
+# March Madness Predictive Modeling 2021
 
 ## Description
-This repo contains code to build, train, and test a predictive model for the 2020 NCAA March Madness tournament. Included in the repo are scripts to extract tournament and season statistics for NCAA teams from "www.sports-reference.com".
+This repo contains code to build, train, and test a predictive model for the 2021 NCAA March Madness tournament. Included in the repo are scripts to extract tournament and season statistics for NCAA teams from "www.sports-reference.com".
 
 ## Model Training and Predicting
 The model training and predicting code is set up to automatically format scraped data for model training. The model code builds three different machine learning models (fully connected neural net, random forest, logistic regression) with access to several tunable parameters. Model performances are written to an output file and models are saved and usable for performing predictions on unseen tournament data.
@@ -75,7 +75,7 @@ Pipeline to use this repo. All data scraped from 1993 through 2019 (inclusive) b
 	Example: `2000_to_2021_season.csv`
 
 ### Other examples
-#### (Deprecated - if using model training code pull all data up until current year even if it won't be used for training/predicting)
+#### (Deprecated - if using model training code, pull all data up until current year even if it won't be used for training/predicting)
 Replace \<script\> with either `get_season_data.py` or `get_tourney_data.py`.
 1. Get data in year range (2000 thru 2019 inclusive)
 
