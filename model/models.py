@@ -1,4 +1,5 @@
 import keras
+from utils.globs import *
 from sklearn.model_selection import train_test_split
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.linear_model import LogisticRegression
@@ -10,10 +11,10 @@ import os
 def lr(x):
     # Parameters
     penalty = 'l2'
-    max_iter = 8000
+    max_iter = 9000
 
     model_name = get_model_name('.obj')
-    output_string = "\n***LOGISTIC REGRESSION\n{0}:\nPenalty: {1}\nMax Iterations: {2}\n".format(model_name,penalty,max_iter)
+    output_string = "\n{0}\n***LOGISTIC REGRESSION\n{1}:\nPenalty: {2}\nMax Iterations: {3}\n".format(tourney_ref,model_name,penalty,max_iter)
     print(output_string)
 
     # Get target
@@ -46,10 +47,11 @@ def lr(x):
 
 def rf(x):
     # Parameters
-    num_trees = 12
+    num_trees = 4
+    max_depth = 3
 
     model_name = get_model_name('.obj')
-    output_string = "\n***RANDOM FOREST\n{0}:\nNum Trees: {1}\n".format(model_name,num_trees)
+    output_string = "\n{0}\n***RANDOM FOREST\n{1}:\nNum Trees: {2}\nMax Depth: {3}\n".format(tourney_ref,model_name,num_trees,max_depth)
     print(output_string)
 
     # Get target
@@ -59,7 +61,7 @@ def rf(x):
     x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.25, random_state= 0)
 
     # Build model
-    model = RandomForestClassifier(n_estimators=num_trees)
+    model = RandomForestClassifier(n_estimators=num_trees,max_depth=max_depth)
 
     # Fit model
     model.fit(x_train, y_train)
@@ -82,15 +84,15 @@ def rf(x):
 
 def nn(x): 
     # Parameters
-    batch_size=128
-    patience = 75
+    batch_size = 128
+    patience = 80
     epochs = 5000
     layer1 = 200
     layer2 = 200
     dropout = 0.2
 
     model_name = get_model_name('.h5')
-    output_string = "\n***NEURAL NET\n{0}:\nBatch size: {1}\nEpochs: {2}\nLayer1: {3}\nLayer2: {4}\nDropout: {5}\nPatience: {6}\n".format(model_name,batch_size,epochs,layer1,layer2,dropout,patience)
+    output_string = "\n{0}\n***NEURAL NET\n{1}:\nBatch size: {2}\nEpochs: {3}\nLayer1: {4}\nLayer2: {5}\nDropout: {6}\nPatience: {7}\n".format(tourney_ref,model_name,batch_size,epochs,layer1,layer2,dropout,patience)
     print(output_string)
 
     # Get target

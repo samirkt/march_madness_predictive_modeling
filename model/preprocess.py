@@ -1,24 +1,24 @@
 import pandas as pd
 import numpy as np
+from utils.globs import *
 import os
 
 
-### Set year parameters
-start = 1993    # First season with data available
-end = 2021      # Most recent season
+# Data parameters
+missing = 0.9
+fill = 0
 
 
 def load():
-
     try:
-        sfilename = "../data/season/"+str(start)+"_to_"+str(end)+"_season_clean.csv"
+        sfilename = "../data/season/1993_to_"+str(current)+"_season_clean.csv"
         print('Loading season data from file %s' % (sfilename))
         season = pd.read_csv(sfilename)
     except:
         print('Error: Could not read file %s' % (sfilename))
 
     try:
-        tfilename = "../data/tourney/"+str(start)+"_to_"+str(end)+"_tourney.csv"
+        tfilename = "../data/tourney/1993_to_"+str(current)+"_tourney.csv"
         print('Loading tourney data from file %s' % (tfilename))
         tourney = pd.read_csv(tfilename)
     except:
@@ -27,9 +27,6 @@ def load():
     return season, tourney
 
 def create_season_train_data(season):
-    missing = 0.9
-    fill = 0
-
     # Column filtering and preprocessing
     season = season.loc[:, season.isnull().sum() < missing*len(season)]
     season = missing_vals(season,fill)
@@ -38,7 +35,7 @@ def create_season_train_data(season):
     data_dir = 'train_data/'
     if not os.path.exists(data_dir):
         os.makedirs(data_dir)
-    name = 'season-' + str(missing) + '-' + str(fill) + '-' + str(start) + '-' + str(end) + '.csv'
+    name = 'season-' + str(missing) + '-' + str(fill) + '-1993-'+str(current)+'.csv'
 
     season.to_csv(data_dir + name, index=False)
 
@@ -46,7 +43,7 @@ def create_season_train_data(season):
 def create_tourney_train_data(tourney):
     # NOTE: Add code to select season lookup table
 
-    season_file = "train_data/season-0.9-0-1993-2021.csv"
+    season_file = 'train_data/season-' + str(missing) + '-' + str(fill) + '-1993-'+str(current)+'.csv'
     try:
         season = pd.read_csv(season_file)
     except:
@@ -61,6 +58,11 @@ def create_tourney_train_data(tourney):
 
     data = []
     for index, match in tourney.iterrows():
+        # Check year range
+        if not start_year <= match['Year'] <= end_year:
+            continue
+
+        # Set target variables
         if match['PTS'] > match['PTS.1']:
             targ1 = 1
             targ2 = 0
@@ -68,6 +70,7 @@ def create_tourney_train_data(tourney):
             targ1 = 0
             targ2 = 1
 
+        # Create samples
         row1 = create_sample(season,
                 match['Year'],
                 (match['School'],match['school_seed']),
@@ -93,7 +96,7 @@ def create_tourney_train_data(tourney):
     data_dir = 'train_data/'
     if not os.path.exists(data_dir):
         os.makedirs(data_dir)
-    name = 'tourney-' + season_file[18:]
+    name = 'tourney-' + str(missing) + '-' + str(fill) + '-' + str(start_year) + '-' + str(end_year) + '.csv'
 
     table.to_csv(data_dir + name, index=False)
     #table.to_csv('train_data/test.csv')
@@ -128,12 +131,6 @@ def main():
     season, tourney = load()
     create_season_train_data(season)
     create_tourney_train_data(tourney)
-
-    #table = pd.read_csv("../data/saved_states/93to21.csv")
-    #table = missing_vals(table)
-    #nn(table)
-    #rf(table)
-    #lr(table)
 
 if __name__ == "__main__":
     main()
