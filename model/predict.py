@@ -15,15 +15,15 @@ def load():
    return pd.read_csv(season_ref)
    
 def nn_predict(sample):
-    model = keras.models.load_model('saved/model4.h5')
+    model = keras.models.load_model(nn_model)
     return model.predict(sample)
 
 def rf_predict(sample):
-    model = pickle.load(open('saved/model15.obj', 'rb'))
+    model = pickle.load(open(rf_model, 'rb'))
     return model.predict_proba(sample)
 
 def lr_predict(sample):
-    model = pickle.load(open('saved/model16.obj', 'rb'))
+    model = pickle.load(open(lr_model, 'rb'))
     return model.predict_proba(sample)
 
 def predict(sample):
