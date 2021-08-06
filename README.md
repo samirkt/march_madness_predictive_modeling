@@ -1,7 +1,7 @@
 # March Madness Predictive Modeling 2021
 
 ## Description
-This repo contains code to build, train, and test a predictive model for the 2021 NCAA March Madness tournament. Included in the repo are scripts to extract tournament and season statistics for NCAA teams from "www.sports-reference.com".
+This repo contains code to build, train, and test an ensemble classifier for the 2021 NCAA March Madness tournament. The default ensemble method trains a basic neural network, a random forest classifier, and a logistic regression model and makes predictions based on an average of the resulting prediction probabilities. Included in the repo are scripts to extract tournament and season statistics for NCAA teams from "www.sports-reference.com".
 
 ## Model Training and Predicting
 The model training and predicting code is set up to automatically format scraped data for model training. The model code builds three different machine learning models (fully connected neural net, random forest, logistic regression) with access to several tunable parameters. Model performances are written to an output file and models are saved and usable for performing predictions on unseen tournament data.
@@ -23,7 +23,7 @@ The model training and predicting code is set up to automatically format scraped
 	* Comment out any models in *train.py* that do not need to be trained (i.e. when retraining a single model with new parameters)
 6. If predicting for tournaments after 2021... Add an entry in the brackets dictionary in *utils/brackets.py* containing matchups and seeds. See existing entries for an example.
 7. Run model predictions: `python predict.py`
-	* Current behavior: predictions are output one at a time with probabilities for each of the three models as well as the average probability across models. 
+	* Current behavior: predictions are output one matchup at a time with probabilities for each of the three models as well as the average probability across models. Default predictions are made based on this average probability.
 
 ---
 
