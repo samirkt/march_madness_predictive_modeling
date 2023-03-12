@@ -1,4 +1,16 @@
-/data/
-/data/*
 *__pycache__*
 .*.swp
+*.pyc
+
+# Data files
+/data/
+/data/*
+*.csv
+model/train_data/
+
+# Model files
+*.obj
+*.h5
+
+# Performance files
+model/outputs.txt

@@ -1,4 +1,5 @@
 def load():
+    # (tourney name, season name)
     return [("Brigham Young", "BYU"),
             ("Cal State Long Beach", "Long Beach State"),
             ("Central Connecticut State", "Central Connecticut"),
@@ -30,5 +31,8 @@ def load():
             ("Texas-El Paso", "UTEP"),
             ("Texas-San Antonio", "UTSA"),
             ("UC-Santa Barbara", "UCSB"),
+            ("UC Santa Barbara", "UCSB"),
+            ("UC Davis", "UC-Davis"),
+            ("UC Irvine", "UC-Irvine"),
             ("University of California", "California"),
             ("Virginia Commonwealth", "VCU")]

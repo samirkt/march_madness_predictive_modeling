@@ -12,6 +12,8 @@ The model training and predicting code is set up to automatically format scraped
 	* *models.py* - ML operationalization for 3 different models: a basic fully-connected NN, a random forest classifier, and a logistic regression. Model parameter settings and model performance are appended to outputs.txt for each trained model. Uses 25% of the data as a validation set.
 	* *train.py* - Uses the *models.py* library to train and save 3 different models
 	* *predict.py* - Uses a voting process between 3 trained and saved models to pick winners in a bracket of teams (bracket stored in utils/brackets.py)
+    * *conditional_projections.py* - Uses base prediction functionality to recursively pick matchups based on which team has the higher probability of going further in the tournament. Conditional probabilities are calculated based on potential opponents and their associated matchup likelihood.
+    * *gen_matrix.py* - Uses base prediction functionality to predict matchups for all pairwise combinations of tournament teams.
 
 ### Usage
 1. Scrape data up until current year (Refer to "Data Scraping" section below)
@@ -52,7 +54,7 @@ The model training and predicting code is set up to automatically format scraped
 
 
 ### Data Scraping Usage
-Pipeline to use this repo. All data scraped from 1993 through 2019 (inclusive) by default.
+Pipeline to use this repo. All data scraped from 1993 through current year (inclusive) by default.
 
 1. Scrape season stats
 
