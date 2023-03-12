@@ -52,7 +52,7 @@ The model training and predicting code is set up to automatically format scraped
 
 
 ### Data Scraping Usage
-Pipeline to use this repo. All data scraped from 1993 through 2019 (inclusive) by default.
+Pipeline to use this repo. All data scraped from 1993 through current year (inclusive) by default.
 
 1. Scrape season stats
 

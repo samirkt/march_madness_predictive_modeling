@@ -18,12 +18,13 @@ from bs4 import BeautifulSoup as bs
 import pandas as pd
 import requests
 import sys, os
+from datetime import datetime as dt
 
 ### Set year parameters
 if len(sys.argv) == 1:  # Default year range
     start = 1993    # 1993: Earliest available season data
                     # 1987: Introduction of 3-pt line and shot clock
-    end = 2021
+    end = dt.now().year
 elif len(sys.argv) == 2:    # Manual year entry (single year)
     start = sys.argv[1]
     end = sys.argv[1]
