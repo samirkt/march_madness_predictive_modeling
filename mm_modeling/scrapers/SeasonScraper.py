@@ -12,14 +12,6 @@ Source:
     www.sports-reference.com
 '''
 
-
-
-from bs4 import BeautifulSoup as bs
-import pandas as pd
-import requests
-import sys, os
-from datetime import datetime as dt
-
 from mm_modeling.scrapers.ScraperBase import ScraperBase
 
 
@@ -82,7 +74,6 @@ class SeasonScraper(ScraperBase):
                 thead, tbody = self.get_head_and_body(page)
             except Exception as exc:
                 print(exc)
-                breakpoint()
                 # No season data available for this year
                 print('\tNo data found: %s%s' % (str(year)," "*10))
                 continue
