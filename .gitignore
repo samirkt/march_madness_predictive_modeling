@@ -13,4 +13,8 @@ model/train_data/
 *.h5
 
 # Performance files
-model/outputs.txt
+*outputs.txt
+
+# Package files
+.python-version
+*.egg-info/*
