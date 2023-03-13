@@ -18,3 +18,8 @@ model/train_data/
 # Package files
 .python-version
 *.egg-info/*
+*.egg
+dist/*
+
+# Venv
+build/*
