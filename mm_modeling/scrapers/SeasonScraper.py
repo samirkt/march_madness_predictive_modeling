@@ -66,7 +66,7 @@ class SeasonScraper(ScraperBase):
             print('\tCurrent year: '+str(year), end="\r", flush=True)
 
             ### Fetch web data from "sports-reference.com"
-            url = "https://www.sports-reference.com/cbb/seasons/'+str(year)+'-school-stats.html"
+            url = f"https://www.sports-reference.com/cbb/seasons/{year}-school-stats.html"
             page = self.get(url)
 
             ### Process content

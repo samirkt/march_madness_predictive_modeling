@@ -50,6 +50,8 @@ class ScraperBase:
     
     def get(self, url):
         page = requests.get(url)
+        if page.status_code != 200:
+            print(f"Warning: status code {page.status_code}")
         self._rate_limit()
 
         return page

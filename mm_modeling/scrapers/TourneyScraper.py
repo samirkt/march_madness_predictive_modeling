@@ -70,15 +70,11 @@ class TourneyScraper(ScraperBase):
 
             ### Process content, get data table header and body
             try:
-                th_soup, tb_soup = self.get_head_and_body(page)
+                thead, tbody = self.get_head_and_body(page)
             except Exception as e:
-                raise Exception(e)
-
-            if len(tb_soup) == 0:   # No more data to process
+                # HACK: to find when data ends
+                print(f"\tNo data found (offset): {offset}")
                 break
-            else:
-                thead = th_soup[0]
-                tbody = tb_soup[0]
 
             ### Extract table column names
             if len(table) == 0:
