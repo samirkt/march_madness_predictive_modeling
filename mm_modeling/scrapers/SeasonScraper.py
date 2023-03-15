@@ -45,6 +45,7 @@ class SeasonScraper(ScraperBase):
         return cols
     
     def build_table(self, tbody, table, players, games, year):
+        count = 0
         for trow in tbody.find_all('tr'):
             # Check if row is not relevant
             if trow.has_attr('data-row'):
@@ -63,7 +64,9 @@ class SeasonScraper(ScraperBase):
 
             # Check if team was in NCAA tourney
             if len(row) > 0 and row[1] == 'NCAA':
+                count += 1
                 players = self.util_scrapes(school_stats)
+                print(f"\t\tSchools added: {count}", end="\r", flush=True)
                 table.append([year]+row[:1]+row[2:]+[players])
         
         return table
@@ -86,7 +89,7 @@ class SeasonScraper(ScraperBase):
         table, players, games = [], [], []
         for year in range(int(self.START),int(self.END)+1):
             ### Status report
-            print('\tCurrent year: '+str(year), end="\r", flush=True)
+            print('\tCurrent year: '+str(year))
 
             ### Fetch web data from "sports-reference.com"
             url = f"{self.BASE_URL}/cbb/seasons/{year}-school-stats.html"
