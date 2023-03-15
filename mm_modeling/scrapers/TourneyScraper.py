@@ -85,7 +85,7 @@ class TourneyScraper(ScraperBase):
             ### Build out table
             table, offset = self.build_table(tbody, table, offset)
 
-        self.save(table)
+            self.save(table)
 
 if __name__ == "__main__":
     s = TourneyScraper()
