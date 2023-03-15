@@ -17,6 +17,7 @@ from datetime import datetime as dt
 import pandas as pd
 import random
 import requests
+import shutil
 import sys, os
 import time
 
@@ -29,7 +30,8 @@ class ScraperBase:
     END = dt.now().year
     DATA_DIR = defs.DATA_DIR
 
-    RPM = 15 # requests per minute
+    BASE_URL = "https://www.sports-reference.com"
+    RPM = 20 # requests per minute
 
     def __init__(self):
         ### Create data directory and file name
@@ -41,6 +43,16 @@ class ScraperBase:
         f = f"{self.START}_to_{self.END}_{self._get_name()}.csv"
         self.filename = os.path.join(sub_dir, f)
     
+    def get_tables(self, page):
+        soup = bs(page.content, 'html.parser')
+        tables = soup.find_all("table")
+
+        titles = [table.find_all("caption")[0].text for table in tables]
+        theads = [table.find_all("thead")[0] for table in tables]
+        tbodies = [table.find_all("tbody")[0] for table in tables]
+
+        return titles, theads, tbodies
+
     def get_head_and_body(self, page):
         # Get data table headers and body
         soup = bs(page.content,'html.parser')
@@ -57,11 +69,14 @@ class ScraperBase:
         return page
     
     def save(self, table):
+        if os.path.isfile(self.filename):
+            shutil.copyfile(self.filename, f"{self.filename[:-4]}_backup.csv")
         pd.DataFrame(columns=table[0],data=table[1:]).to_csv(self.filename)
-        print(f"\rData saved to file \'{self.filename}\'")
+        ts = dt.now().strftime("%Y-%m-%d %H:%M:%S")
+        print(f"\n{ts} Backing up \'{self.filename}\'")
 
     def _rate_limit(self):
-        rand_wait = random.random() * 3
+        rand_wait = random.random()
         time.sleep((60/self.RPM)+rand_wait)
 
     @abstractmethod
