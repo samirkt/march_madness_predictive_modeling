@@ -9,7 +9,8 @@ requirements = [
     "numpy",
     "pandas",
     "requests",
-    "sklearn",
+    "scikit-learn",
+    "tensorflow",
 ]
 
 setup(
