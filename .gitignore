@@ -1,6 +1,7 @@
 *__pycache__*
 .*.swp
 *.pyc
+*.txt
 
 # Data files
 /data/
