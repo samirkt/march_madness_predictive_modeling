@@ -85,7 +85,7 @@ class AdvSeasonScraper(ScraperBase):
             ### Build out table
             self.build_table(tbody, table, year)
 
-        self.save(table)
+            self.save(table)
 
 if __name__ == "__main__":
     s = AdvSeasonScraper()
