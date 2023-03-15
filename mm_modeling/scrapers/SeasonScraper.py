@@ -13,6 +13,7 @@ Source:
 '''
 
 from mm_modeling.scrapers.ScraperBase import ScraperBase
+from mm_modeling.scrapers.UtilScrapers import PlayerScraper
 
 
 class SeasonScraper(ScraperBase):
@@ -38,9 +39,12 @@ class SeasonScraper(ScraperBase):
         for i,under in enumerate(headers[1].find_all('th')): 
             cols[i] = cols[i]+'_'+under.text
         
+        # Add util scraper cols
+        cols.append(PlayerScraper.NAME)
+        
         return cols
     
-    def build_table(self, tbody, table, year):
+    def build_table(self, tbody, table, players, games, year):
         for trow in tbody.find_all('tr'):
             # Check if row is not relevant
             if trow.has_attr('data-row'):
@@ -48,25 +52,44 @@ class SeasonScraper(ScraperBase):
 
             # Append each item in row
             row = []
-            for col in trow.find_all('td'):
+            for i, col in enumerate(trow.find_all('td')):
+                # Get school link
+                if i == 0:
+                    school_stats = self.BASE_URL + col.find("a")["href"] 
+
                 # Split school name and NCAA appearance
                 item = col.text.split('\xa0')
                 row.extend(item)
 
             # Check if team was in NCAA tourney
             if len(row) > 0 and row[1] == 'NCAA':
-                table.append([year]+row[:1]+row[2:])
+                players = self.util_scrapes(school_stats)
+                table.append([year]+row[:1]+row[2:]+[players])
         
         return table
+    
+    def util_scrapes(self, url):
+        util_scrapers = [
+            (url, PlayerScraper),
+        ]
+
+        # lists should be getting passed by reference
+        ret = []
+        for link, scrape_cls in util_scrapers:
+            scraper = scrape_cls(link)
+            scraper.run()
+            ret.append(scraper.row)
+
+        return ret
 
     def run(self):
-        table = []
+        table, players, games = [], [], []
         for year in range(int(self.START),int(self.END)+1):
             ### Status report
             print('\tCurrent year: '+str(year), end="\r", flush=True)
 
             ### Fetch web data from "sports-reference.com"
-            url = f"https://www.sports-reference.com/cbb/seasons/{year}-school-stats.html"
+            url = f"{self.BASE_URL}/cbb/seasons/{year}-school-stats.html"
             page = self.get(url)
 
             ### Process content
@@ -84,9 +107,9 @@ class SeasonScraper(ScraperBase):
                 table = [['Year']+cols[1:]]
 
             ### Build out table
-            table = self.build_table(tbody, table, year)
-        
-        self.save(table)
+            table = self.build_table(tbody, table, players, games, year)
+
+            self.save(table)
 
 if __name__ == "__main__":
     s = SeasonScraper()
