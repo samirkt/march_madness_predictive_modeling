@@ -66,8 +66,7 @@ if __name__ == "__main__":
     usr_in = usr_in[12:] if usr_in[:12] == 'data/season/' else usr_in
     sfilename = 'data/season/' + usr_in
     safilename = 'data/season_adv/'+usr_in[:-4]+'_adv'+usr_in[-4:]
-    tfilename = 'data/tourney/1993_to_{0}_tourney.csv'.format(yr)
-    print()
+    tfilename = 'data/tourney/'+usr_in[:-11]+'_tourney.csv'
 
     check_adv_stats = 1
     try:

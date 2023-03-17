@@ -3,6 +3,7 @@ from collections import defaultdict
 import pandas as pd
 import numpy as np
 from utils.globs import *
+from utils.globs import women
 import os
 
 
@@ -15,17 +16,24 @@ class_map["SO"] = 2
 class_map["JR"] = 3
 class_map["SR"] = 4
 
+if women:
+    sfilename = "../data/season/women_2023_to_"+str(current)+"_season_clean.csv"
+else:
+    sfilename = "../data/season/1993_to_"+str(current)+"_season_clean.csv"
+
+if women:
+    tfilename = "../data/tourney/women_2023_to_"+str(current)+"_tourney.csv"
+else:
+    tfilename = "../data/tourney/1993_to_"+str(current)+"_tourney.csv"
 
 def load():
     try:
-        sfilename = "../data/season/1993_to_"+str(current)+"_season_clean.csv"
         print('Loading season data from file %s' % (sfilename))
         season = pd.read_csv(sfilename)
     except:
         print('Error: Could not read file %s' % (sfilename))
 
     try:
-        tfilename = "../data/tourney/1993_to_"+str(current)+"_tourney.csv"
         print('Loading tourney data from file %s' % (tfilename))
         tourney = pd.read_csv(tfilename)
     except:
@@ -46,7 +54,10 @@ def create_season_train_data(season):
     data_dir = 'train_data/'
     if not os.path.exists(data_dir):
         os.makedirs(data_dir)
-    name = 'season-' + str(missing) + '-1993-'+str(current)+'.csv'
+    if women:
+        name = 'women-season-' + str(missing) + '-2023-'+str(current)+'.csv'
+    else:
+        name = 'season-' + str(missing) + '-1993-'+str(current)+'.csv'
 
     print(f"Outputting season map to {data_dir+name}")
     season.to_csv(data_dir + name, index=False)
@@ -55,7 +66,11 @@ def create_season_train_data(season):
 def create_tourney_train_data(tourney):
     # NOTE: Add code to select season lookup table
 
-    season_file = 'train_data/season-' + str(missing) + '-1993-'+str(current)+'.csv'
+    if women:
+        season_file = 'train_data/women-season-' + str(missing) + '-2023-'+str(current)+'.csv'
+    else:
+        season_file = 'train_data/season-' + str(missing) + '-1993-'+str(current)+'.csv'
+
     try:
         season = pd.read_csv(season_file)
     except:
@@ -187,7 +202,7 @@ def get_avg_class(classes):
 def main():
     season, tourney = load()
     create_season_train_data(season)
-    create_tourney_train_data(tourney)
+    #create_tourney_train_data(tourney)
 
 if __name__ == "__main__":
     main()

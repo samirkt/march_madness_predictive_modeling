@@ -93,7 +93,10 @@ class SeasonScraper(ScraperBase):
             print('\tCurrent year: '+str(year))
 
             ### Fetch web data from "sports-reference.com"
-            url = f"{self.BASE_URL}/cbb/seasons/{year}-school-stats.html"
+            if self.WOMEN:
+                url = f"{self.BASE_URL}/cbb/seasons/women/{year}-school-stats.html"
+            else:
+                url = f"{self.BASE_URL}/cbb/seasons/{year}-school-stats.html"
             page = self.get(url)
 
             ### Process content

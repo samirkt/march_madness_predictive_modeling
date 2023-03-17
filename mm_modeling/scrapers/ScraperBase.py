@@ -23,12 +23,15 @@ import time
 
 import mm_modeling as mm
 from mm_modeling.params import defs
+from mm_modeling.model.utils.globs import women
 
 
 class ScraperBase:
     START = defs.FIRST_YEAR
     END = dt.now().year
     DATA_DIR = defs.DATA_DIR
+
+    WOMEN = women
 
     BASE_URL = "https://www.sports-reference.com"
     RPM = 20 # requests per minute
@@ -40,7 +43,10 @@ class ScraperBase:
             os.mkdir(self.DATA_DIR)
         if not os.path.exists(sub_dir):
             os.mkdir(sub_dir)
-        f = f"{self.START}_to_{self.END}_{self._get_name()}.csv"
+        if self.WOMEN:
+            f = f"women_{self.START}_to_{self.END}_{self._get_name()}.csv"
+        else:
+            f = f"{self.START}_to_{self.END}_{self._get_name()}.csv"
         self.filename = os.path.join(sub_dir, f)
     
     def get_tables(self, page):

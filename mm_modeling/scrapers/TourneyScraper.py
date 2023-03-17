@@ -65,6 +65,7 @@ class TourneyScraper(ScraperBase):
         table = []
         while 1:
             ### Fetch web data from "sports-reference.com"
+            # TODO: determine women's link
             url = f"https://www.sports-reference.com/cbb/play-index/tourney.cgi?request=1&match=single&year_min={self.START}&year_max={self.END}&seed_cmp=eq&opp_seed_cmp=eq&game_result=W&pts_diff_cmp=eq&order_by_single=date_game&order_by_combined=g&offset={offset}"
             page = self.get(url)
 

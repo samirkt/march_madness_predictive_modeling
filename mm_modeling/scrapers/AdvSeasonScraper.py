@@ -61,12 +61,16 @@ class AdvSeasonScraper(ScraperBase):
 
     def run(self):
         table = []
-        for year in range(int(self.START),int(self.END)+1):
+        #for year in range(int(self.START),int(self.END)+1):
+        for year in [2023]:
             ### Status report
             print('\tCurrent year: '+str(year), end="\r", flush=True)
 
             ### Fetch web data from "sports-reference.com"
-            url = f"https://www.sports-reference.com/cbb/seasons/{year}-advanced-school-stats.html"
+            if self.WOMEN:
+                url = f"https://www.sports-reference.com/cbb/seasons/women/{year}-advanced-school-stats.html"
+            else:
+                url = f"https://www.sports-reference.com/cbb/seasons/{year}-advanced-school-stats.html"
             page = self.get(url)
 
             ### Process content

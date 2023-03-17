@@ -59,7 +59,7 @@ class Models(object):
 
     def pick(self,bracket):
         season = self.season_data
-        year = pred_year
+        year = int(str(pred_year)[-4:]) # ignore w if running womens
 
         i = 0
         while len(bracket) > 1:

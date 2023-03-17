@@ -1,5 +1,8 @@
 from datetime import datetime as dt
 
+# Women's data
+women = 1
+
 # Year parameters for data generation
 current = dt.now().year
 
@@ -8,12 +11,18 @@ start_year = 1993
 end_year = dt.now().year-1
 
 # Year parameters for prediction
-pred_year = dt.now().year
+if women:
+    pred_year = "w"+str(dt.now().year)
+else:
+    pred_year = dt.now().year
 
 # Files for training
 train_data_dir = "train_data"
 scaler_fp = f"{train_data_dir}/scaler.pkl"
-season_ref = f"{train_data_dir}/season-0.9-{start_year}-{current}.csv"
+if women:
+    season_ref = f"{train_data_dir}/women-season-0.9-2023-{current}.csv"
+else:
+    season_ref = f"{train_data_dir}/season-0.9-{start_year}-{current}.csv"
 tourney_ref = f"{train_data_dir}/tourney-0.9-{start_year}-{end_year}.csv"
 
 # Models for predicting
