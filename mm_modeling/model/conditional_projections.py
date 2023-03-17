@@ -1,11 +1,12 @@
 from utils.brackets import brackets
+from utils.globs import pred_year
 from datetime import datetime as dt
 from copy import copy
 
 import numpy as np
 import pandas as pd
 
-year = dt.now().year
+year = pred_year
 
 b = brackets[year]
 b = [name for name,seed in b]

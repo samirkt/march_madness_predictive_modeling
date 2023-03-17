@@ -18,6 +18,7 @@ from mm_modeling.scrapers.UtilScrapers import PlayerScraper
 
 class SeasonScraper(ScraperBase):
     NAME = "season"
+    START = 2005
 
     def __init__(self):
         ScraperBase.__init__(self)

@@ -2,6 +2,7 @@
 
 from preprocess import create_sample
 from utils.globs import *
+from utils.globs import scaler_fp
 from utils.brackets import *
 import keras
 import pandas as pd
@@ -19,11 +20,14 @@ class Models(object):
         self.nn_model = keras.models.load_model(nn_model)
         self.rf_model = pickle.load(open(rf_model, 'rb'))
         self.lr_model = pickle.load(open(lr_model, 'rb'))
+
+        with open(scaler_fp, 'rb') as f:
+            self.scaler = pickle.load(f)
         
         self.season_data = pd.read_csv(season_ref)
 
     def nn_predict(self,sample):
-        return self.nn_model.predict(sample)
+        return self.nn_model.predict(sample, verbose=0)
 
     def rf_predict(self,sample):
         return self.rf_model.predict_proba(sample)
@@ -34,9 +38,13 @@ class Models(object):
     def predict(self,sample):
         nn = rf = lr = np.nan
 
-        nn = self.nn_predict([[sample]])[0][0]
-        rf = self.rf_predict([sample])[0][1]
-        lr = self.lr_predict([sample])[0][1]
+        # Fit sample values, don't need to convert to values
+        # because sample is already np.array
+        sample = self.scaler.transform([sample])
+
+        nn = self.nn_predict(sample)[0][0]
+        rf = self.rf_predict(sample)[0][1]
+        lr = self.lr_predict(sample)[0][1]
 
         return [np.nanmean([nn,rf,lr]),nn,rf,lr]
 

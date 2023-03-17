@@ -15,6 +15,7 @@ year = dt.now().year
 season = m.season_data
 
 for school1 in br[year]:
+    print(f"Matchups for {school1}")
     schools.append(str(school1[0]))
     row = []
     for school2 in br[year]:
@@ -25,7 +26,9 @@ for school1 in br[year]:
             row.append(pred[0])
     mat.append(row)  
 
-pd.DataFrame(mat,columns = schools).to_csv("matchup_mat.csv")
+fn = "matchup_mat.csv"
+print(f"Outputting matrix to {fn}")
+pd.DataFrame(mat,columns = schools).to_csv(fn)
 
 
 ### Check if both teams higher than .5 or both less than .5
