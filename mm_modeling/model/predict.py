@@ -10,6 +10,9 @@ import numpy as np
 import pickle
 import sys, os
 
+from mm_modeling.model.gen_matrix import gen_mat
+from mm_modeling.model.conditional_projections import project
+
 pd.options.mode.chained_assignment = None
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
 
@@ -57,9 +60,8 @@ class Models(object):
             preds[3]
             ))
 
-    def pick(self,bracket):
+    def pick(self, bracket, year):
         season = self.season_data
-        year = int(str(pred_year)[-4:]) # ignore w if running womens
 
         i = 0
         while len(bracket) > 1:
@@ -92,9 +94,17 @@ class Models(object):
             if ex: quit()
             
 
-def main():
+def main(conditional=False):
     m = Models()
-    m.pick(brackets[pred_year])
+    bracket = brackets[pred_year]
+    year = int(str(pred_year)[-4:]) # ignore w if running womens
+
+    if not conditional:
+        m.pick(bracket, year)
+    else:
+        mat = gen_mat(m, bracket, year, save_fp=os.path.join(defs.DATA_DIR,f"{str(pred_year)}_mat.csv"))
+        project(mat, bracket)
+
 
     
 if __name__ == "__main__":

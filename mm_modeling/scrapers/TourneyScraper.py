@@ -22,9 +22,6 @@ class TourneyScraper(ScraperBase):
     def __init__(self):
         ScraperBase.__init__(self)
     
-    def _get_name(self):
-        return self.NAME
-    
     def extract_columns(self, thead):
         cols = [col.text for col in thead.find_all('th')]
         cols = cols[1:]
@@ -63,10 +60,11 @@ class TourneyScraper(ScraperBase):
         
         offset = 0
         table = []
+        year = self.START
         while 1:
             ### Fetch web data from "sports-reference.com"
             # TODO: determine women's link
-            url = f"https://www.sports-reference.com/cbb/play-index/tourney.cgi?request=1&match=single&year_min={self.START}&year_max={self.END}&seed_cmp=eq&opp_seed_cmp=eq&game_result=W&pts_diff_cmp=eq&order_by_single=date_game&order_by_combined=g&offset={offset}"
+            url = f"https://www.sports-reference.com/cbb/play-index/tourney.cgi?request=1&match=single&year_min={year}&year_max={year}&seed_cmp=eq&opp_seed_cmp=eq&game_result=W&pts_diff_cmp=eq&order_by_single=date_game&order_by_combined=g&offset={offset}"
             page = self.get(url)
 
             ### Process content, get data table header and body
@@ -86,7 +84,7 @@ class TourneyScraper(ScraperBase):
             ### Build out table
             table, offset = self.build_table(tbody, table, offset)
 
-            self.save(table)
+            self.save(table, year)
 
 if __name__ == "__main__":
     s = TourneyScraper()

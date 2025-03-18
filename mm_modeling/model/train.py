@@ -1,5 +1,5 @@
 from models import rf, lr, nn
-from utils.globs import tourney_ref, scaler_fp
+from utils.globs import tourney_ref, scaler_fp, season_ref
 import pandas as pd
 import pickle
 import numpy as np
@@ -15,7 +15,7 @@ def main():
     y = x.pop('target')
 
     # Split data
-    x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.25, random_state=0)
+    x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.3, random_state=42)
 
     # Scale data and save scaler object
     scaler = MinMaxScaler()

@@ -81,7 +81,7 @@ def nn(data):
 
     # Parameters
     batch_size = 128
-    patience = 80
+    patience = 10
     epochs = 5000
     layer1 = 200
     layer2 = 200
@@ -151,7 +151,7 @@ def build_model(num_cols,layer1,layer2,dropout):
     return model
 
 def write_model_info(output_string):
-    with open('outputs.txt','a') as f:
+    with open('outputs/outputs.txt','a') as f:
         f.write(output_string + '\n\n')
 
 def get_model_name(suff):

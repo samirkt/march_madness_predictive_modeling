@@ -20,9 +20,9 @@ class AdvSeasonScraper(ScraperBase):
 
     def __init__(self):
         ScraperBase.__init__(self)
-    
-    def _get_name(self):
-        return self.NAME
+
+        from mm_modeling.model.utils.brackets import brackets
+        self.tourney_teams = [school[0] for school in brackets[2024]]
     
     def extract_columns(self, thead):
         cols = []
@@ -48,10 +48,13 @@ class AdvSeasonScraper(ScraperBase):
 
             # Append each item in row
             row = []
-            for col in trow.find_all('td'):
+            for i, col in enumerate(trow.find_all('td')):
                 # Split school name and NCAA appearance
                 item = col.text.split('\xa0')
                 row.extend(item)
+
+                if i == 0 and row[0] in self.tourney_teams:
+                    row.extend(["NCAA"])
 
             # Check if team was in NCAA tourney
             if len(row) > 0 and row[1] == 'NCAA':
@@ -61,8 +64,8 @@ class AdvSeasonScraper(ScraperBase):
 
     def run(self):
         table = []
-        #for year in range(int(self.START),int(self.END)+1):
-        for year in [2023]:
+        #for year in [2023]:
+        for year in range(int(self.START),int(self.END)+1):
             ### Status report
             print('\tCurrent year: '+str(year), end="\r", flush=True)
 
@@ -89,7 +92,7 @@ class AdvSeasonScraper(ScraperBase):
             ### Build out table
             self.build_table(tbody, table, year)
 
-            self.save(table)
+            self.save(table, year)
 
 if __name__ == "__main__":
     s = AdvSeasonScraper()

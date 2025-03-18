@@ -53,7 +53,21 @@ The model training and predicting code is set up to automatically format scraped
 	* *Abbreviation mappings stored and editable in "helper/school\_abbrevs.py"*
 
 
-### Data Scraping Usage
+### Pipeline
+1. Scrape season, advanced stats, tourney using classes in `scrapers` (one year at a time)
+    * Each year of data will be stored in its own data directory
+2. Run `collate.py` to aggregate data in specified year range from each data directory
+    * Output (season, adv stats, tourney) will be stored at root level of data directory
+3. Run `data_processor.py` and add any missing abbreviations
+    * Output will be stored with output from previous step with suffix "_clean"
+4. Run `preprocess.py`
+    * Output will be stored in `train_data` directory in main data dir
+5. Train models
+6. Run `predict.py`
+    * Set conditional flag to generate pairwise matchup outcomes
+
+
+### Data Scraping Usage (Deprecated - 2024-03-19)
 Pipeline to use this repo. All data scraped from 1993 through current year (inclusive) by default.
 
 1. Scrape season stats

@@ -35,19 +35,24 @@ class ScraperBase:
 
     BASE_URL = "https://www.sports-reference.com"
     RPM = 20 # requests per minute
+    NAME = "BASE" # This should be defined in the child classes
 
     def __init__(self):
+        pass
+    
+    def get_fp(self, year):
         ### Create data directory and file name
-        sub_dir = f"{self.DATA_DIR}/{self._get_name()}"
+        sub_dir = f"{self.DATA_DIR}/{year}"
         if not os.path.exists(self.DATA_DIR):
             os.mkdir(self.DATA_DIR)
         if not os.path.exists(sub_dir):
             os.mkdir(sub_dir)
-        if self.WOMEN:
-            f = f"women_{self.START}_to_{self.END}_{self._get_name()}.csv"
-        else:
-            f = f"{self.START}_to_{self.END}_{self._get_name()}.csv"
-        self.filename = os.path.join(sub_dir, f)
+        
+        f = self.get_name()
+        
+        filename = os.path.join(sub_dir, f)
+
+        return filename
     
     def get_tables(self, page):
         soup = bs(page.content, 'html.parser')
@@ -74,20 +79,27 @@ class ScraperBase:
 
         return page
     
-    def save(self, table):
-        if os.path.isfile(self.filename):
-            shutil.copyfile(self.filename, f"{self.filename[:-4]}_backup.csv")
-        pd.DataFrame(columns=table[0],data=table[1:]).to_csv(self.filename)
+    def save(self, table, year):
+        filename = self.get_fp(year)
+
+        if os.path.isfile(filename):
+            shutil.copyfile(filename, f"{filename[:-4]}_backup.csv")
+        pd.DataFrame(columns=table[0],data=table[1:]).to_csv(filename)
         ts = dt.now().strftime("%Y-%m-%d %H:%M:%S")
-        print(f"\n{ts} Backing up \'{self.filename}\'")
+        print(f"\n{ts} Backing up \'{filename}\'")
 
     def _rate_limit(self):
         rand_wait = random.random()
         time.sleep((60/self.RPM)+rand_wait)
-
-    @abstractmethod
-    def _get_name(self):
-        pass
+    
+    def _name_prefix(self):
+        prefix = ""
+        if self.WOMEN:
+            prefix = "women_"
+        return prefix
+    
+    def get_name(self):
+        return "".join([self._name_prefix(), self.NAME, ".csv"])
 
     @abstractmethod
     def extract_columns(self, thead):

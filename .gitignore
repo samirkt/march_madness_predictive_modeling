@@ -2,10 +2,14 @@
 .*.swp
 *.pyc
 *.txt
+*.DS_Store
 
 # Data files
 /data/
 /data/*
+*/data/
+*/data/*
+*/*data*/*
 *.csv
 model/train_data/
 

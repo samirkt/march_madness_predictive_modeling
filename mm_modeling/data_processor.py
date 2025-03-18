@@ -1,10 +1,14 @@
-from helper.school_abbrevs import load as abb_load
+from helper import school_abbrevs
 from datetime import datetime as dt
+import os
 import pandas as pd
+
+from mm_modeling.params import defs
+from mm_modeling.scrapers import SeasonScraper, AdvSeasonScraper, TourneyScraper
 
 def abbrev_schools(table):
     # Load abbreviation map
-    abbrevs = abb_load()
+    abbrevs = school_abbrevs.load()
 
     # Replace school names based on map
     for pair in abbrevs:
@@ -59,14 +63,9 @@ def test_abbrev_mapping(season, tourney):
         print()
 
 if __name__ == "__main__":
-    # Pick season and tourney data files (tourney file is fixed)
-    yr = dt.now().year
-    usr_in = (input("Processing and cleaning season data...\nEnter season filename or hit 'enter' to use default: ") or "1993_to_{0}_season.csv".format(yr))
-    print("Using file {0}".format(usr_in))
-    usr_in = usr_in[12:] if usr_in[:12] == 'data/season/' else usr_in
-    sfilename = 'data/season/' + usr_in
-    safilename = 'data/season_adv/'+usr_in[:-4]+'_adv'+usr_in[-4:]
-    tfilename = 'data/tourney/'+usr_in[:-11]+'_tourney.csv'
+    sfilename = os.path.join(defs.DATA_DIR, SeasonScraper.SeasonScraper().get_name())
+    safilename = os.path.join(defs.DATA_DIR, AdvSeasonScraper.AdvSeasonScraper().get_name())
+    tfilename = os.path.join(defs.DATA_DIR, TourneyScraper.TourneyScraper().get_name())
 
     check_adv_stats = 1
     try:
@@ -81,7 +80,6 @@ if __name__ == "__main__":
         _ = input("Ignoring advanced stats. Hit enter to continue.")
         print()
         check_adv_stats = 0
-    tourney = pd.read_csv(tfilename)
 
     # Merge advanced stats
     if check_adv_stats:
@@ -91,10 +89,16 @@ if __name__ == "__main__":
     season = abbrev_schools(season)
 
     # Data Checks
-    test_abbrev_mapping(season,tourney)
+    try:
+        tourney = pd.read_csv(tfilename)
+        tourney = abbrev_schools(tourney)
+        test_abbrev_mapping(season,tourney)
+        tourney.to_csv(tfilename[:-4]+"_clean.csv")
+    except:
+        print(f"Could not load or clean tourney data for {tfilename}")
+
 
     # Data Cleaning Output
-    filename = sfilename[:-4]+'_clean.csv'
-    season.to_csv(filename)
-    print('\rData saved to file \'%s\'' % filename)
+    season.to_csv(sfilename[:-4]+"_clean.csv")
+    print("Saved cleaned season and tourney data.")
 

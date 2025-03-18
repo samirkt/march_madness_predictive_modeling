@@ -1,10 +1,13 @@
 import ast
 from collections import defaultdict
+import os
 import pandas as pd
 import numpy as np
+
+from mm_modeling.params import defs
 from utils.globs import *
 from utils.globs import women
-import os
+from utils import globs
 
 
 # Data parameters
@@ -17,16 +20,14 @@ class_map["JR"] = 3
 class_map["SR"] = 4
 
 if women:
-    sfilename = "../data/season/women_2023_to_"+str(current)+"_season_clean.csv"
+    sfilename = os.path.join(defs.DATA_DIR,"women_season_clean.csv")
+    tfilename = os.path.join(defs.DATA_DIR,"women_tourney_clean.csv")
 else:
-    sfilename = "../data/season/1993_to_"+str(current)+"_season_clean.csv"
-
-if women:
-    tfilename = "../data/tourney/women_2023_to_"+str(current)+"_tourney.csv"
-else:
-    tfilename = "../data/tourney/1993_to_"+str(current)+"_tourney.csv"
+    sfilename = os.path.join(defs.DATA_DIR,"season_clean.csv")
+    tfilename = os.path.join(defs.DATA_DIR,"tourney_clean.csv")
 
 def load():
+    season, tourney = None, None
     try:
         print('Loading season data from file %s' % (sfilename))
         season = pd.read_csv(sfilename)
@@ -43,6 +44,7 @@ def load():
 
 def create_season_train_data(season):
     # Feature processing
+    season = build_is_ass(season)
     season = unpack_player_stats(season)
     season = drop_meta_cols(season)
 
@@ -51,30 +53,20 @@ def create_season_train_data(season):
     season = missing_vals(season)
 
     # Export season training data
-    data_dir = 'train_data/'
-    if not os.path.exists(data_dir):
-        os.makedirs(data_dir)
-    if women:
-        name = 'women-season-' + str(missing) + '-2023-'+str(current)+'.csv'
-    else:
-        name = 'season-' + str(missing) + '-1993-'+str(current)+'.csv'
+    if not os.path.exists(defs.TRAIN_DATA_DIR):
+        os.makedirs(defs.TRAIN_DATA_DIR)
 
-    print(f"Outputting season map to {data_dir+name}")
-    season.to_csv(data_dir + name, index=False)
+    print(f"Outputting season map to {os.path.join(defs.TRAIN_DATA_DIR,globs.season_ref)}")
+    season.to_csv(os.path.join(defs.TRAIN_DATA_DIR,globs.season_ref), index=False)
 
 
 def create_tourney_train_data(tourney):
     # NOTE: Add code to select season lookup table
 
-    if women:
-        season_file = 'train_data/women-season-' + str(missing) + '-2023-'+str(current)+'.csv'
-    else:
-        season_file = 'train_data/season-' + str(missing) + '-1993-'+str(current)+'.csv'
-
     try:
-        season = pd.read_csv(season_file)
+        season = pd.read_csv(globs.season_ref)
     except:
-        print("Error: could not load file " + season_file + ". Make sure file is created using 'create_season_train_data' function")
+        print("Error: could not load file " + globs.season_ref + ". Make sure file is created using 'create_season_train_data' function")
         quit()
 
     tourney = tourney[['Year','Round','school_seed','School','opponent_seed','Opponent','PTS','PTS.1']]
@@ -120,14 +112,11 @@ def create_tourney_train_data(tourney):
     table = pd.DataFrame(columns=cols,data=data)
 
     # Export tourney training data
-    data_dir = 'train_data/'
-    if not os.path.exists(data_dir):
-        os.makedirs(data_dir)
-    name = 'tourney-' + str(missing) + '-' + str(start_year) + '-' + str(end_year) + '.csv'
+    if not os.path.exists(defs.TRAIN_DATA_DIR):
+        os.makedirs(defs.TRAIN_DATA_DIR)
 
-    print(f"Outputting train data to {data_dir+name}")
-    table.to_csv(data_dir + name, index=False)
-    #table.to_csv('train_data/test.csv')
+    print(f"Outputting train data to {os.path.join(defs.TRAIN_DATA_DIR,globs.tourney_ref)}")
+    table.to_csv(os.path.join(defs.TRAIN_DATA_DIR,globs.tourney_ref), index=False)
 
 def create_sample(season,year,school,opponent):
     sch = season[(season['Year']==year) 
@@ -138,7 +127,8 @@ def create_sample(season,year,school,opponent):
         & (season['_School']==opponent[0])].copy()
     opp.drop(columns=['Year','_School'],axis=1,inplace=True)
 
-    match = [school[1],opponent[1]]
+    #match = [school[1],opponent[1]]
+    match = [1,1]
 
     return np.concatenate((sch, opp, match), axis=None)
 
@@ -161,6 +151,10 @@ def drop_meta_cols(df):
 
 def unpack_player_stats(df):
     df[["avg_height", "avg_class"]] = df.player_stats.apply(lambda x: pd.Series(parse_roster_table(x)))
+    return df
+
+def build_is_ass(df):
+    df["is_ass"] = df._School.apply(lambda x: True if x in ["Virginia", "Purdue"] else False)
     return df
 
 def parse_roster_table(x):
@@ -201,8 +195,10 @@ def get_avg_class(classes):
 
 def main():
     season, tourney = load()
-    create_season_train_data(season)
-    #create_tourney_train_data(tourney)
+    if not season is None:
+        create_season_train_data(season)
+    if not tourney is None:
+        create_tourney_train_data(tourney)
 
 if __name__ == "__main__":
     main()

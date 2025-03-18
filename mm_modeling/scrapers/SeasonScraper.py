@@ -18,13 +18,12 @@ from mm_modeling.scrapers.UtilScrapers import PlayerScraper
 
 class SeasonScraper(ScraperBase):
     NAME = "season"
-    START = 2005
 
     def __init__(self):
         ScraperBase.__init__(self)
-    
-    def _get_name(self):
-        return self.NAME
+
+        from mm_modeling.model.utils.brackets import brackets
+        self.tourney_teams = [school[0] for school in brackets[2024]]
     
     def extract_columns(self, thead):
         cols = []
@@ -62,6 +61,9 @@ class SeasonScraper(ScraperBase):
                 # Split school name and NCAA appearance
                 item = col.text.split('\xa0')
                 row.extend(item)
+
+                if i == 0 and row[0] in self.tourney_teams:
+                    row.extend(["NCAA"])
 
             # Check if team was in NCAA tourney
             if len(row) > 0 and row[1] == 'NCAA':
@@ -116,7 +118,7 @@ class SeasonScraper(ScraperBase):
             ### Build out table
             table = self.build_table(tbody, table, players, games, year)
 
-            self.save(table)
+            self.save(table, year)
 
 if __name__ == "__main__":
     s = SeasonScraper()

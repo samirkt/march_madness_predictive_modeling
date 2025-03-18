@@ -1,7 +1,9 @@
 from datetime import datetime as dt
 
+from mm_modeling.params import defs
+
 # Women's data
-women = 1
+women = 0
 
 # Year parameters for data generation
 current = dt.now().year
@@ -16,8 +18,8 @@ if women:
 else:
     pred_year = dt.now().year
 
-# Files for training
-train_data_dir = "train_data"
+# Files for training/predicting
+train_data_dir = defs.TRAIN_DATA_DIR
 scaler_fp = f"{train_data_dir}/scaler.pkl"
 if women:
     season_ref = f"{train_data_dir}/women-season-0.9-2023-{current}.csv"
@@ -26,6 +28,6 @@ else:
 tourney_ref = f"{train_data_dir}/tourney-0.9-{start_year}-{end_year}.csv"
 
 # Models for predicting
-nn_model = 'saved/model3.h5'
-rf_model = 'saved/model6.obj'
-lr_model = 'saved/model7.obj'
+nn_model = 'saved/model9.h5'
+rf_model = 'saved/model21.obj'
+lr_model = 'saved/model22.obj'

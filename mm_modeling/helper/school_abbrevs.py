@@ -7,6 +7,7 @@ def load():
             ("Connecticut", "UConn"),
             ("Detroit Mercy", "Detroit"),
             ("East Tennessee State", "ETSU"),
+            ("Fairleigh Dickinson", "FDU"),
             ("Illinois-Chicago", "UIC"),
             ("Long Island University", "LIU"),
             ("Louisiana State", "LSU"),

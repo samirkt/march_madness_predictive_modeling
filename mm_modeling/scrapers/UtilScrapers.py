@@ -25,9 +25,6 @@ class PlayerScraper(ScraperBase):
         self.url = url
         self.row = {}
     
-    def _get_name(self):
-        return self.NAME
-    
     def extract_columns(self, thead):
         # Get high-level columns
         cols = [col.text for col in thead.find_all('th')][1:]
