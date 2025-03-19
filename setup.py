@@ -7,6 +7,7 @@ requirements = [
     "bs4",
     "keras",
     "numpy",
+    "openai",
     "pandas",
     "requests",
     "scikit-learn",
