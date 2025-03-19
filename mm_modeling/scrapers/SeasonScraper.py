@@ -22,9 +22,6 @@ class SeasonScraper(ScraperBase):
     def __init__(self):
         ScraperBase.__init__(self)
 
-        from mm_modeling.model.utils.brackets import brackets
-        self.tourney_teams = [school[0] for school in brackets[2024]]
-    
     def extract_columns(self, thead):
         cols = []
         headers = thead.find_all('tr')
@@ -61,9 +58,6 @@ class SeasonScraper(ScraperBase):
                 # Split school name and NCAA appearance
                 item = col.text.split('\xa0')
                 row.extend(item)
-
-                if i == 0 and row[0] in self.tourney_teams:
-                    row.extend(["NCAA"])
 
             # Check if team was in NCAA tourney
             if len(row) > 0 and row[1] == 'NCAA':

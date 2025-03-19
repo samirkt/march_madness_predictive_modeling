@@ -15,6 +15,26 @@ The model training and predicting code is set up to automatically format scraped
     * *conditional_projections.py* - Uses base prediction functionality to recursively pick matchups based on which team has the higher probability of going further in the tournament. Conditional probabilities are calculated based on potential opponents and their associated matchup likelihood.
     * *gen_matrix.py* - Uses base prediction functionality to predict matchups for all pairwise combinations of tournament teams.
 
+### Pipeline
+***[WARNING!! As of 2025 tournament querying is no longer available through sports reference. The TourneyScraper will need to be updated to be able to parse the matchup data contained in the bracket view (see: https://www.sports-reference.com/cbb/postseason/men/2024-ncaa.html). Season data can still be pulled for inference in new years but models cannot be trained on years missing tourney data. Updating TourneyScraper should also enable pulling and training on women's tourney data.]***
+1. Scrape season, advanced stats, tourney using classes in `scrapers` (one year at a time)
+    * Each year of data will be stored in its own data directory
+2. Run `collate.py` to aggregate data in specified year range from each data directory
+    * Output (season, adv stats, tourney) will be stored at root level of data directory
+3. Run `data_processor.py` and add any missing abbreviations
+    * Output will be stored with output from previous step with suffix "_clean"
+4. Run `preprocess.py`
+    * Output will be stored in `train_data` directory in main data dir
+5. Train models
+6. Run `predict.py`
+    * Set conditional flag to generate pairwise matchup outcomes
+
+
+---
+
+***[WARNING!! The information below is deprecated and may not be up to date (2025-03-18)]***
+
+
 ### Usage
 1. Scrape data up until current year (Refer to "Data Scraping" section below)
 2. Set current year, start and end years (for training), and prediction year in *utils/globs.py*. 
@@ -52,19 +72,6 @@ The model training and predicting code is set up to automatically format scraped
 1. Map team names in season data to the abbreviated versions used in tourney data
 	* *Abbreviation mappings stored and editable in "helper/school\_abbrevs.py"*
 
-
-### Pipeline
-1. Scrape season, advanced stats, tourney using classes in `scrapers` (one year at a time)
-    * Each year of data will be stored in its own data directory
-2. Run `collate.py` to aggregate data in specified year range from each data directory
-    * Output (season, adv stats, tourney) will be stored at root level of data directory
-3. Run `data_processor.py` and add any missing abbreviations
-    * Output will be stored with output from previous step with suffix "_clean"
-4. Run `preprocess.py`
-    * Output will be stored in `train_data` directory in main data dir
-5. Train models
-6. Run `predict.py`
-    * Set conditional flag to generate pairwise matchup outcomes
 
 
 ### Data Scraping Usage (Deprecated - 2024-03-19)

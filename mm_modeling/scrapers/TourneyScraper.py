@@ -80,7 +80,6 @@ class TourneyScraper(ScraperBase):
                 cols = self.extract_columns(thead)
                 table = [cols]
                 
-
             ### Build out table
             table, offset = self.build_table(tbody, table, offset)
 

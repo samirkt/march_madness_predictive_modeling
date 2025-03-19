@@ -94,7 +94,7 @@ class Models(object):
             if ex: quit()
             
 
-def main(conditional=False):
+def main(conditional=True):
     m = Models()
     bracket = brackets[pred_year]
     year = int(str(pred_year)[-4:]) # ignore w if running womens

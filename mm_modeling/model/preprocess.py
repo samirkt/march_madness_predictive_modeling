@@ -127,8 +127,8 @@ def create_sample(season,year,school,opponent):
         & (season['_School']==opponent[0])].copy()
     opp.drop(columns=['Year','_School'],axis=1,inplace=True)
 
-    #match = [school[1],opponent[1]]
-    match = [1,1]
+    match = [school[1],opponent[1]]
+    #match = [1,1]
 
     return np.concatenate((sch, opp, match), axis=None)
 
