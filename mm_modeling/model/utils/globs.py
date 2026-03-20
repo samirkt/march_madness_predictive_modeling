@@ -10,6 +10,7 @@ current = dt.now().year
 
 # Year parameters for training
 start_year = 1993
+#end_year = 2024 #No tourney data after 2024
 end_year = dt.now().year-1
 
 # Year parameters for prediction
@@ -28,6 +29,11 @@ else:
 tourney_ref = f"{train_data_dir}/tourney-0.9-{start_year}-{end_year}.csv"
 
 # Models for predicting
-nn_model = 'saved/model9.h5'
-rf_model = 'saved/model21.obj'
-lr_model = 'saved/model22.obj'
+# OG
+#nn_model = 'saved/model9.h5'
+#rf_model = 'saved/model21.obj'
+#lr_model = 'saved/model22.obj'
+
+nn_model = 'saved/model11.h5'
+rf_model = 'saved/model23.obj'
+lr_model = 'saved/model24.obj'

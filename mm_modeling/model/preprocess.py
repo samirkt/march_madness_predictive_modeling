@@ -134,7 +134,7 @@ def create_sample(season,year,school,opponent):
 
 def missing_vals(data):
     #print_missing_percentages(data)
-    data.fillna(data.mean(),inplace=True)
+    data.fillna(data.mean(numeric_only=True),inplace=True)
     print("Dataset has nans: ",data.isna().values.any())
 
     return data

@@ -25,6 +25,7 @@ def load():
             ("Saint Joseph\'s", "St. Joseph\'s"),
             ("Saint Mary\'s (CA)", "Saint Mary\'s"),
             ("Saint Peter\'s", "St. Peter\'s"),
+            ("St. John\'s", "St. John\'s (NY)")
             ("Southern California", "USC"),
             ("Southern Methodist", "SMU"),
             ("Southern Mississippi", "Southern Miss"),
